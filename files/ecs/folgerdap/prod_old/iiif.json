@@ -1,0 +1,14 @@
+[{
+  "portMappings": [{
+    "hostPort": 0,
+    "protocol": "tcp",
+    "containerPort": 8182
+  }],
+  "mountPoints": [{
+    "containerPath": "/repository",
+    "sourceVolume": "FOLGERDAP-Images"
+  }],
+  "memory": 8000,
+  "image": "${app-image}:${app-version}",
+  "name": "App"
+}]

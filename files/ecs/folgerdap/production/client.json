@@ -1,0 +1,61 @@
+[{
+    "name": "Web",
+    "portMappings": [{
+      "hostPort": 0,
+      "protocol": "tcp",
+      "containerPort": 80
+    }],
+    "memory": 128,
+    "memoryReservation": 64,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "Client"
+      }
+    },
+    "workingDirectory": "/app",
+    "image": "${web-image}:${web-version}",
+    "links": [
+      "App:app"
+    ]
+  },
+  {
+    "name": "App",
+    "portMappings": [{
+      "hostPort": 0,
+      "protocol": "tcp",
+      "containerPort": 9000
+    }],
+    "memory": 512,
+    "memoryReservation": 128,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "Client"
+      }
+    },
+    "workingDirectory": "/app",
+    "image": "${app-image}:${app-version}",
+    "environment": [{
+        "name": "GRAPHQL_API_ENDPOINT",
+        "value": "${graphql-endpoint}"
+      },
+      {
+        "name": "SYMFONY_ENV",
+        "value": "prod"
+      },
+      {
+        "name": "MANIFEST_ENDPOINT",
+        "value": "${manifest-endpoint}"
+      },
+      {
+        "name": "APISESSION_ENDPOINT",
+        "value": "${apisession-endpoint}"
+      }
+    ]
+  }
+]

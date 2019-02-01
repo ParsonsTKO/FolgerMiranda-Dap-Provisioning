@@ -1,0 +1,10 @@
+.DS_Store
+*.backup
+*.terraform
+terraform.tfvars
+*.lock.info
+.env
+.git-crypt/
+files/20180331.key.pub
+terraform.tfstate
+secrets.tf

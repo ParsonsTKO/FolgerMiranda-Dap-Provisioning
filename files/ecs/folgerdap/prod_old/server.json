@@ -1,0 +1,83 @@
+[{
+    "name": "Web",
+    "portMappings": [{
+      "hostPort": 0,
+      "protocol": "tcp",
+      "containerPort": 80
+    }],
+    "mountPoints": [{
+      "containerPath": "/mnt/images",
+      "sourceVolume": "FOLGERDAP-Images"
+    }],
+    "memory": 512,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "Server"
+      }
+    },
+    "workingDirectory": "/app",
+    "image": "${web-image}:${web-version}",
+    "links": [
+      "App:app"
+    ]
+  },
+  {
+    "name": "App",
+    "portMappings": [{
+      "hostPort": 0,
+      "protocol": "tcp",
+      "containerPort": 9000
+    }],
+    "mountPoints": [{
+      "containerPath": "/mnt/images",
+      "sourceVolume": "FOLGERDAP-Images"
+    }],
+    "memory": 1024,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "Server"
+      }
+    },
+    "workingDirectory": "/app",
+    "image": "${app-image}:${app-version}",
+    "environment": [{
+        "name": "DATABASE_HOST",
+        "value": "db.aws.miranda.parsonstko.com"
+      },
+      {
+        "name": "DATABASE_NAME",
+        "value": "folgerdap"
+      },
+      {
+        "name": "DATABASE_PASSWORD",
+        "value": "${db_password}"
+      },
+      {
+        "name": "DATABASE_USER",
+        "value": "folgerdap"
+      },
+      {
+        "name": "ELASTICSEARCH_ENDPOINT",
+        "value": "es.aws.miranda.parsonstko.com:80"
+      },
+      {
+        "name": "ELASTICSEARCH_INDEX_NAME",
+        "value": "folgersdap"
+      },
+      {
+        "name": "SQS_QUEUE_URL",
+        "value": "https://sqs.us-east-2.amazonaws.com/159895783284/FOLGERDAP-AssetsRetrieval"
+      },
+      {
+        "name": "SYMFONY_ENV",
+        "value": "prod"
+      }
+    ]
+  }
+]

@@ -1,0 +1,105 @@
+[{
+    "name": "Web",
+    "portMappings": [{
+      "hostPort": 0,
+      "protocol": "tcp",
+      "containerPort": 80
+    }],
+    "memory": 128,
+    "memoryReservation": 64,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "Server"
+      }
+    },
+    "workingDirectory": "/app",
+    "image": "${web-image}:${web-version}",
+    "links": [
+      "App:app"
+    ]
+  },
+  {
+    "name": "App",
+    "portMappings": [{
+      "hostPort": 0,
+      "protocol": "tcp",
+      "containerPort": 9000
+    }],
+    "memory": 1024,
+    "memoryReservation": 128,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "Server"
+      }
+    },
+    "workingDirectory": "/app",
+    "image": "${app-image}:${app-version}",
+    "environment": [{
+        "name": "DATABASE_HOST",
+        "value": "db.aws.collections.folger.edu"
+      },
+      {
+        "name": "DATABASE_NAME",
+        "value": "${db_name}"
+      },
+      {
+        "name": "DATABASE_PASSWORD",
+        "value": "${db_password}"
+      },
+      {
+        "name": "DATABASE_USER",
+        "value": "folgerdap"
+      },
+      {
+        "name": "ELASTICSEARCH_ENDPOINT",
+        "value": "es.aws.collections.folger.edu:80"
+      },
+      {
+        "name": "ELASTICSEARCH_INDEX_NAME",
+        "value": "${elasticsearch-index}"
+      },
+      {
+        "name": "SQS_QUEUE_URL",
+        "value": "${sqs_queue}"
+      },
+      {
+        "name": "SYMFONY_ENV",
+        "value": "prod"
+      },
+      {
+        "name": "S3_ASSETS_CONTENT",
+        "value": "${assets_content_bucket}"
+      },
+      {
+        "name": "IIIF_URL",
+        "value": "https://iiif.collections.folger.edu/iiif/2"
+      },
+      {
+        "name": "IIIF_ENDPOINT",
+        "value": "https://iiif.collections.folger.edu/iiif/2"
+      },
+      {
+        "name": "ASSETS_CONTENT_ENDPOINT",
+        "value": "${assets_content_bucket_endpoint}"
+      },
+      {
+        "name": "MAILER_SMTP_USER",
+        "value": "${ses_smtp_user}"
+      },
+      {
+        "name": "MAILER_SMTP_PASSWORD",
+        "value": "${ses_smtp_password}"
+      },
+      {
+        "name": "CLIENT_ENDPOINT",
+        "value": "http://collections.folger.edu"
+      }
+    ]
+  }
+]

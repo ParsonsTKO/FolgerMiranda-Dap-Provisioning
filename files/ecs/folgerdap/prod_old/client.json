@@ -1,0 +1,50 @@
+[{
+    "name": "Web",
+    "portMappings": [{
+      "hostPort": 0,
+      "protocol": "tcp",
+      "containerPort": 80
+    }],
+    "memory": 512,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "Client"
+      }
+    },
+    "workingDirectory": "/app",
+    "image": "${web-image}:${web-version}",
+    "links": [
+      "App:app"
+    ]
+  },
+  {
+    "name": "App",
+    "portMappings": [{
+      "hostPort": 0,
+      "protocol": "tcp",
+      "containerPort": 9000
+    }],
+    "memory": 512,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "Client"
+      }
+    },
+    "workingDirectory": "/app",
+    "image": "${app-image}:${app-version}",
+    "environment": [{
+      "name": "GRAPHQL_API_ENDPOINT",
+      "value": "https://server.miranda.folger.edu"
+    },
+    {
+      "name": "SYMFONY_ENV",
+      "value": "prod"
+    }]
+  }
+]

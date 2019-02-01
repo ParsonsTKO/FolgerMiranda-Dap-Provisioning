@@ -1,0 +1,52 @@
+[{
+  "name": "App",
+  "memory": 8000,
+  "memoryReservation": 128,
+  "logConfiguration": {
+    "logDriver": "awslogs",
+    "options": {
+      "awslogs-group": "${log_group}",
+      "awslogs-region": "${region}",
+      "awslogs-stream-prefix": "ImportRecords"
+    }
+  },
+  "workingDirectory": "/app",
+  "image": "${app-image}:${app-version}",
+  "environment": [{
+      "name": "DATABASE_HOST",
+      "value": "db.aws.collections.folger.edu"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "value": "${db_name}"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "value": "${db_password}"
+    },
+    {
+      "name": "DATABASE_USER",
+      "value": "folgerdap"
+    },
+    {
+      "name": "ELASTICSEARCH_ENDPOINT",
+      "value": "es.aws.collections.folger.edu:80"
+    },
+    {
+      "name": "ELASTICSEARCH_INDEX_NAME",
+      "value": "${elasticsearch-index}"
+    },
+    {
+      "name": "SQS_QUEUE_URL",
+      "value": "${sqs_queue}"
+    },
+    {
+      "name": "S3_BUCKET",
+      "value": "${source_bucket}"
+    },
+    {
+      "name": "S3_SUCCESS_IMPORTED",
+      "value": "${imported_bucket}"
+    }
+  ]
+}]

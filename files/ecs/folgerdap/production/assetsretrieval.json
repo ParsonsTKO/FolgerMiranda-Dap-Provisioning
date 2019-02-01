@@ -1,0 +1,35 @@
+[{
+  "name": "App",
+  "memory": 512,
+  "memoryReservation": 64,
+  "logConfiguration": {
+    "logDriver": "awslogs",
+    "options": {
+      "awslogs-group": "${log_group}",
+      "awslogs-region": "${region}",
+      "awslogs-stream-prefix": "AssetsRetrieval"
+    }
+  },
+  "image": "${app-image}:${app-version}",
+  "environment": [{
+      "name": "APP_ENV",
+      "value": "prod"
+    },
+    {
+      "name": "SQS_QUEUE_URL",
+      "value": "${sqs_queue}"
+    },
+    {
+      "name": "SQS_REGION",
+      "value": "${region}"
+    },
+    {
+      "name": "S3_REGION",
+      "value": "${region}"
+    },
+    {
+      "name": "S3_DESTINATION_NAME",
+      "value": "${assets_content_bucket}"
+    }
+  ]
+}]

@@ -1,0 +1,28 @@
+[{
+  "portMappings": [{
+    "hostPort": 0,
+    "protocol": "tcp",
+    "containerPort": 8182
+  }],
+  "memory": 8000,
+  "memoryReservation": 128,
+  "logConfiguration": {
+    "logDriver": "awslogs",
+    "options": {
+      "awslogs-group": "${log_group}",
+      "awslogs-region": "${region}",
+      "awslogs-stream-prefix": "IIIF"
+    }
+  },
+  "image": "${app-image}:${app-version}",
+  "name": "App",
+  "environment": [{
+      "name": "S3SOURCE_BUCKET",
+      "value": "${s3-bucket}"
+    },
+    {
+      "name": "ADMIN_PASSWORD",
+      "value": "${admin-password}"
+    }
+  ]
+}]
